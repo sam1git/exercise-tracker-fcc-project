@@ -62,7 +62,8 @@ app.post('/api/users', (req, res) => {
 // Handles post request to add exercises to existing users.
 app.post('/api/users/:_id/exercises', (req, res) => {
   let dataInput = {
-    _id: req.body[":_id"],
+    //_id: req.body[":_id"], tests fails if I grab _id this way
+    _id: req.params._id, // tests pass if I grab _id this way
     description: req.body.description,
     duration: +req.body.duration,
     date: req.body.date
