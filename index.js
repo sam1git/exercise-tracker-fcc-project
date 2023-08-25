@@ -95,11 +95,11 @@ app.post('/api/users/:_id/exercises', (req, res) => {
     } else {
         console.log(`Added exercise data: ${data}`)
         return res.status(201).json({
-          _id: data["_id"],
           username: data.username,
-          date: dataInput.date,
+          _id: data["_id"],
+          description: dataInput.description,
           duration: dataInput.duration,
-          description: dataInput.description
+          date: dataInput.date
         });
     }
   });
