@@ -135,6 +135,26 @@ app.get('/api/users/:_id/logs', (req, res) => {
           Error: "Failed to fetch data."
           });
       } else {
+        if (!req.query.from && !req.query.to && !req.query.limit) {
+          return res.send(data);
+        };
+        if (req.query.from) {
+          for (let i = data.log.length - 1; i >= 0; i--) {
+            if (new Date(data.log[i].date) < new Date(req.query.from)) {
+              data.log.splice(i,1);
+            };
+          };
+        }
+        if (req.query.to) {
+          for (let i = data.log.length - 1; i >= 0; i--) {
+            if (new Date(data.log[i].date) > new Date(req.query.to)) {
+            data.log.splice(i,1);
+            };
+          };
+        };
+        if (req.query.limit) {
+          data.log.splice(req.query.limit);
+        };
         res.send(data);
       }
     }
