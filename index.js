@@ -19,6 +19,13 @@ mongoose.connect(mySecret, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(() => console.log(`Connected to database.`))
   .catch((err) => console.error(err));
 
+// setting up sub-schema for log
+const logSubSchema = new mongoose.Schema({
+  description: String,
+  duration: Number,
+  date: String
+}, {_id: false});
+
 // setting up schema for data input to database
 const dataSchema = new mongoose.Schema({
   username: {
@@ -27,11 +34,7 @@ const dataSchema = new mongoose.Schema({
     required: true
   },
   count: Number,
-  log: [{
-    description: String,
-    duration: Number,
-    date: String
-  }]
+  log: [logSubSchema]
 });
 
 // construction model using desired dataSchema for data intput to database
