@@ -99,10 +99,10 @@ app.post('/api/users/:_id/exercises', (req, res) => {
         console.log(`Added exercise data: ${data}`)
         return res.status(201).json({
           username: data.username,
-          _id: data["_id"],
           description: dataInput.description,
           duration: dataInput.duration,
-          date: dataInput.date
+          date: dataInput.date,
+          _id: data["_id"]
         });
     }
   });
@@ -136,7 +136,12 @@ app.get('/api/users/:_id/logs', (req, res) => {
           });
       } else {
         if (!req.query.from && !req.query.to && !req.query.limit) {
-          return res.send(data);
+          return res.json({
+            username: data.username,
+            count: data.count,
+            _id: data["_id"],
+            log: data.log
+          });
         };
         if (req.query.from) {
           for (let i = data.log.length - 1; i >= 0; i--) {
@@ -155,7 +160,12 @@ app.get('/api/users/:_id/logs', (req, res) => {
         if (req.query.limit) {
           data.log.splice(req.query.limit);
         };
-        res.send(data);
+        res.json({
+          username: data.username,
+          count: data.count,
+          _id: data["_id"],
+          log: data.log
+        });
       }
     }
   );
