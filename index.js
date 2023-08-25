@@ -75,7 +75,6 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   } else {
     dataInput.date = new Date(dataInput.date).toDateString();
   };
-  console.log(dataInput);
   dataModel.findByIdAndUpdate(
     dataInput["_id"],
     {$inc: {count: 1},
@@ -94,20 +93,31 @@ app.post('/api/users/:_id/exercises', (req, res) => {
           Message: "Enter valid ID."
         });
     } else {
+        console.log(`Added exercise data: ${data}`)
         return res.status(201).json({
+          _id: data["_id"],
           username: data.username,
-          description: dataInput.description,
-          duration: dataInput.duration,
           date: dataInput.date,
-          _id: data["_id"]
+          duration: dataInput.duration,
+          description: dataInput.description
         });
     }
   });
 });
 
 // Handles get request to display all users
-app.get('/api/user', (req,res) => {
-  DataModel.find()
+app.get('/api/users', (req,res) => {
+  dataModel.find(
+    {},
+    {username: true, _id: true},
+    (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.status(201).send(data);
+      };
+    }
+  );
 });
 
 const listener = app.listen(process.env.PORT || 3000, () => {
