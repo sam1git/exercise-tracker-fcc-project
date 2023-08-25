@@ -64,7 +64,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   let dataInput = {
     _id: req.body[":_id"],
     description: req.body.description,
-    duration: req.body.duration,
+    duration: +req.body.duration,
     date: req.body.date
   };
   if (dataInput["_id"] === "" || dataInput.description == "" || dataInput.duration == "") {
@@ -96,7 +96,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
           Message: "Enter valid ID."
         });
     } else {
-        console.log(`Added exercise data: ${data}`)
+        console.log(`Added exercise data: ${data}`);
         return res.json({
           username: data.username,
           description: dataInput.description,
