@@ -106,7 +106,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 });
 
 // Handles get request to display all users
-app.get('/api/users', (req,res) => {
+app.get('/api/users', (req, res) => {
   dataModel.find(
     {},
     {username: true, _id: true},
@@ -119,6 +119,25 @@ app.get('/api/users', (req,res) => {
     }
   );
 });
+
+// Handles get request to display logs
+app.get('/api/users/:_id/logs', (req, res) => {
+  dataModel.findById(
+    req.params["_id"],
+    {username: 1, count: 1, _id: 1, log: 1},
+    (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({
+          Error: "Failed to fetch data."
+          });
+      } else {
+        res.send(data);
+      }
+    }
+  );
+});
+
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
