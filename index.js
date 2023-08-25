@@ -45,14 +45,14 @@ app.post('/api/users', (req, res) => {
   new dataModel({username: req.body.username, count: 0}).save()
     .then((data) => {
       console.log(`Saved new user data: ${data}`);
-      res.status(201).json({
+      res.json({
         username: data.username,
         _id: data["_id"]
       });
     })
     .catch((err) => {
       console.error(`New user data NOT saved: ${err}`);
-      res.status(500).json({
+      res.json({
         message: "Failed to create New User",
         Error: `${err}`
       });
@@ -68,7 +68,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
     date: req.body.date
   };
   if (dataInput["_id"] === "" || dataInput.description == "" || dataInput.duration == "") {
-    return res.status(500).json({
+    return res.json({
       Error: "Failed to submit data.",
       Message: "Do not leave any fields blank except date."
     });
@@ -91,13 +91,13 @@ app.post('/api/users/:_id/exercises', (req, res) => {
     if (err) {
       console.error(err);
     } else if (!data) {
-        return res.status(500).json({
+        return res.json({
           Error: "Failed to find ID.",
           Message: "Enter valid ID."
         });
     } else {
         console.log(`Added exercise data: ${data}`)
-        return res.status(201).json({
+        return res.json({
           username: data.username,
           description: dataInput.description,
           duration: dataInput.duration,
@@ -117,7 +117,7 @@ app.get('/api/users', (req, res) => {
       if (err) {
         console.error(err);
       } else {
-        res.status(201).send(data);
+        res.send(data);
       };
     }
   );
