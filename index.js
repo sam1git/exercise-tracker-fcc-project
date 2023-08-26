@@ -68,13 +68,13 @@ app.post('/api/users/:_id/exercises', (req, res) => {
     duration: +req.body.duration,
     date: req.body.date
   };
-  if (dataInput["_id"] === "" || dataInput.description == "" || dataInput.duration == "") {
+  if (!dataInput["_id"] || !dataInput.description || !dataInput.duration) {
     return res.json({
       Error: "Failed to submit data.",
       Message: "Do not leave any fields blank except date."
     });
-  }
-  if (dataInput.date === "") {
+  };
+  if (!dataInput.date) {
     dataInput.date = new Date().toDateString();
   } else {
     dataInput.date = new Date(dataInput.date).toDateString();
